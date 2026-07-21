@@ -817,10 +817,15 @@ TiogaBlock::update_solution(
       for (auto& finfo : fields) {
         auto* fld = finfo.field_;
         const size_t fsize = finfo.sizeRow_ * finfo.sizeCol_;
+        // Old field state
+        auto fld_nm1 = fld->field_state(stk::mesh::StateNM1);
 
         double* fdata = static_cast<double*>(stk::mesh::field_data(*fld, node));
+        double* fdata_nm1 =
+          static_cast<double*>(stk::mesh::field_data(*fld_nm1, node));
         for (size_t ic = 0; ic < fsize; ++ic)
-          fdata[ic] = qsolarr(idx++);
+          fdata[ic] = 2 * qsolarr(idx++) - fdata_nm1[ic];
+        // fdata[ic] = qsolarr(idx++);
       }
     }
   }
