@@ -800,7 +800,8 @@ TiogaBlock::register_solution(
 
 void
 TiogaBlock::update_solution(
-  const std::vector<sierra::kynema_ugf::OversetFieldData>& fields)
+  const std::vector<sierra::kynema_ugf::OversetFieldData>& fields,
+  const int time_step_count)
 {
   if (num_nodes_ < 1)
     return;
@@ -824,8 +825,11 @@ TiogaBlock::update_solution(
         double* fdata_nm1 =
           static_cast<double*>(stk::mesh::field_data(*fld_nm1, node));
         for (size_t ic = 0; ic < fsize; ++ic)
-          fdata[ic] = 2 * qsolarr(idx++) - fdata_nm1[ic];
-        // fdata[ic] = qsolarr(idx++);
+          if (time_step_count > 0) {
+            fdata[ic] = 2 * qsolarr(idx++) - fdata_nm1[ic];
+          } else {
+            fdata[ic] = qsolarr(idx++);
+          }
       }
     }
   }

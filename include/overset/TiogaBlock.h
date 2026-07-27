@@ -211,8 +211,9 @@ public:
   void
   register_solution(TIOGA::tioga&, const sierra::kynema_ugf::OversetFieldData&);
 
-  void
-  update_solution(const std::vector<sierra::kynema_ugf::OversetFieldData>&);
+  void update_solution(
+    const std::vector<sierra::kynema_ugf::OversetFieldData>&,
+    const int time_step_count);
 
   void update_solution(const sierra::kynema_ugf::OversetFieldData&);
 

@@ -488,7 +488,7 @@ TiogaSTKIface::overset_update_fields(
   tg_.dataUpdate(nComp, row_major);
 
   for (auto& tb : blocks_)
-    tb->update_solution(fields);
+    tb->update_solution(fields, oversetManager_.realm_.get_time_step_count());
 
   for (auto& finfo : fields) {
     auto* fld = finfo.field_;
@@ -518,7 +518,7 @@ TiogaSTKIface::update_solution(
   const std::vector<sierra::kynema_ugf::OversetFieldData>& fields)
 {
   for (auto& tb : blocks_)
-    tb->update_solution(fields);
+    tb->update_solution(fields, oversetManager_.realm_.get_time_step_count());
 
   for (auto& finfo : fields) {
     auto* fld = finfo.field_;
