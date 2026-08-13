@@ -815,22 +815,31 @@ TiogaBlock::update_solution(
     for (size_t in = 0; in < b->size(); ++in) {
       auto node = (*b)[in];
 
+      // printf("BKTSIZE %d IN %d\n",b->size(),in);
+      printf("TIMESTEP %d\n", time_step_count);
+      // printf("NODE %d\n",node);
       for (auto& finfo : fields) {
         auto* fld = finfo.field_;
         const size_t fsize = finfo.sizeRow_ * finfo.sizeCol_;
-        // Old field state
-        auto fld_nm1 = fld->field_state(stk::mesh::StateNM1);
+        // printf("FSIZE %d\n",fsize);
+        //  Old field state
+        auto* fld_nm1 = finfo.field_->field_state(stk::mesh::StateNM1);
 
+        // printf("NUMBER OF STATES %d\n",fld->number_of_states());
         double* fdata = static_cast<double*>(stk::mesh::field_data(*fld, node));
         double* fdata_nm1 =
           static_cast<double*>(stk::mesh::field_data(*fld_nm1, node));
+        // printf("FDATA %e\n",*fdata);
+        // printf("FDATA %e FDATANM! %e\n",*fdata,*fdata_nm1);
         for (size_t ic = 0; ic < fsize; ++ic)
-          if (time_step_count > 0) {
+          if (time_step_count > 3) {
             fdata[ic] = 2 * qsolarr(idx++) - fdata_nm1[ic];
+            // fdata[ic] = qsolarr(idx++);
           } else {
             fdata[ic] = qsolarr(idx++);
           }
       }
+      // printf("IDX is %d\n", idx);
     }
   }
 }
