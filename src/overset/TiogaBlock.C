@@ -828,7 +828,7 @@ TiogaBlock::update_solution(
           haveNm1 ? static_cast<double*>(stk::mesh::field_data(*fld_nm1, node))
                   : nullptr;
         for (size_t ic = 0; ic < fsize; ++ic)
-          if (time_step_count > 3 && haveNm1) {
+          if (time_step_count > 1 && haveNm1) {
             fdata[ic] = 2 * qsolarr(idx++) - fdata_nm1[ic];
           } else {
             fdata[ic] = qsolarr(idx++);
