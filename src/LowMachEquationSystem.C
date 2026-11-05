@@ -2941,7 +2941,7 @@ ContinuityEquationSystem::register_nodal_fields(
   const int nDim = meta_data.spatial_dimension();
 
   // register dof; set it as a restart variable
-  const int numStates = 2;
+  const int numStates = realm_.number_of_states();
   pressure_ = &(meta_data.declare_field<double>(
     stk::topology::NODE_RANK, "pressure", numStates));
   stk::mesh::put_field_on_mesh(*pressure_, selector, nullptr);
